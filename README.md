@@ -11,6 +11,7 @@ listly/
 ├── backend/              # Node.js + Express API server
 │   ├── db.js             # MySQL connection
 │   ├── server.js         # Express app and routes
+│   ├── seed.js           # Script to populate the DB with fake data
 │   ├── .env              # Your local environment variables (never commit this)
 │   ├── .env.example      # Template for environment variables
 │   └── package.json
@@ -108,6 +109,42 @@ Open [http://localhost:5173](http://localhost:5173) in your browser. You should 
 ```
 Listly — Database: Connected to Listly DB
 ```
+
+---
+
+## Seeding the Database (Optional)
+
+The repo includes a seed script that populates the database with realistic fake data so you can explore the app without manually creating accounts and listings.
+
+**Run from the `backend` directory (make sure the backend `.env` is configured first):**
+
+```bash
+cd backend
+node seed.js
+```
+
+The script will clear all existing data and insert fresh seed data each time it runs.
+
+### What it creates
+
+- **5 user accounts** — each account has both buyer and seller access
+- **15 listings** — spread across Electronics, Furniture, Clothing, Books, Sports, Home & Garden, Musical Instruments, Tools, and Collectibles
+- **4 offers** — with statuses: pending, accepted, and countered
+- **2 completed transactions** — one shipped by mail, one in-person pickup
+- **2 reviews** — written by buyers after completed transactions
+- **3 conversations** with message threads between users
+
+### Test accounts
+
+All accounts use the password `password123`.
+
+| Username | Email |
+| --- | --- |
+| `alex_sells` | alex@example.com |
+| `brianna_b` | brianna@example.com |
+| `carlos_c` | carlos@example.com |
+| `diana_d` | diana@example.com |
+| `evan_e` | evan@example.com |
 
 ---
 

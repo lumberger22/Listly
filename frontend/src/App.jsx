@@ -1,21 +1,37 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import ListingDetail from "./pages/ListingDetail";
+import CreateListing from "./pages/CreateListing";
+import MyListings from "./pages/MyListings";
+import MyOffers from "./pages/MyOffers";
+import Messages from "./pages/Messages";
+import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import "./App.css";
 
 function App() {
-  const [status, setStatus] = useState("Checking...");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/status")
-      .then((res) => setStatus(res.data.status))
-      .catch(() => setStatus("Could not reach backend"));
-  }, []);
-
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Listly</h1>
-      <p>Database: {status}</p>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/listing/:id" element={<ListingDetail />} />
+            <Route path="/sell" element={<CreateListing />} />
+            <Route path="/my-listings" element={<MyListings />} />
+            <Route path="/my-offers" element={<MyOffers />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
