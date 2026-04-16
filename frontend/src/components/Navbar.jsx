@@ -37,6 +37,7 @@ export default function Navbar() {
       </div>
       <div className="navbar-links">
         <Link to="/">Browse</Link>
+        <Link to="/reports">Reports</Link>
         {user && <Link to="/my-listings">My Listings</Link>}
         {user && <Link to="/my-offers">My Offers</Link>}
         {user && <Link to="/messages">Messages</Link>}

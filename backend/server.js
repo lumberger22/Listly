@@ -9,6 +9,7 @@ const offerRoutes = require("./routes/offers");
 const messageRoutes = require("./routes/messages");
 const reviewRoutes = require("./routes/reviews");
 const transactionRoutes = require("./routes/transactions");
+const reportRoutes = require("./routes/reports");
 
 const app = express();
 app.use(cors());
@@ -27,5 +28,6 @@ app.use("/offers", offerRoutes);
 app.use("/", messageRoutes);   // /conversations and /messages
 app.use("/reviews", reviewRoutes);
 app.use("/transactions", transactionRoutes);
+app.use("/reports", reportRoutes);
 
 app.listen(3001, () => console.log("Listly backend running on port 3001"));
