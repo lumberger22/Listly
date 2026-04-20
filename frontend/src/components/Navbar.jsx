@@ -42,6 +42,15 @@ export default function Navbar() {
         {user && <Link to="/my-offers">My Offers</Link>}
         {user && <Link to="/messages">Messages</Link>}
         {user && <Link to="/profile">Profile</Link>}
+        {user?.is_admin && (
+          <div className="admin-dropdown">
+            <span className="admin-dropdown-trigger">Admin ▾</span>
+            <div className="admin-dropdown-menu">
+              <Link to="/admin/users">User Management</Link>
+              <Link to="/admin/listings">Listing Management</Link>
+            </div>
+          </div>
+        )}
         {user ? (
           <button onClick={handleLogout} className="btn-link">Logout</button>
         ) : (

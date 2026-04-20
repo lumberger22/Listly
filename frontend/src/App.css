@@ -967,6 +967,84 @@ label:first-child {
 .report-none  { color: var(--muted); }
 .report-empty { text-align: center; color: var(--muted); padding: 2rem; }
 
+/* ─── Admin ─── */
+.admin-dropdown {
+  position: relative;
+}
+
+.admin-dropdown-trigger {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text);
+  user-select: none;
+  padding: 0.25rem 0;
+}
+.admin-dropdown-trigger:hover { color: var(--primary); }
+
+.admin-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-width: 180px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 150;
+  overflow: hidden;
+}
+.admin-dropdown:hover .admin-dropdown-menu { display: flex; flex-direction: column; }
+
+.admin-dropdown-menu a {
+  padding: 0.65rem 1rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.admin-dropdown-menu a:last-child { border-bottom: none; }
+.admin-dropdown-menu a:hover { background: var(--surface-alt); color: var(--primary); }
+
+.admin-page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.admin-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+}
+
+.admin-actions { display: flex; gap: 0.4rem; }
+.admin-muted { color: var(--muted); font-size: 0.85rem; }
+.admin-you { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
+
+.admin-badge-admin { background: #ede9fe; color: #5b21b6; }
+[data-theme="dark"] .admin-badge-admin { background: #2e1065; color: #c4b5fd; }
+.admin-badge-user  { background: var(--surface-alt); color: var(--muted); border: 1px solid var(--border); }
+
+.admin-listing-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.admin-listing-link:hover { color: var(--primary); text-decoration: none; }
+.admin-thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
 /* ─── Danger zone ─── */
 .danger-zone {
   margin-top: 3rem;
