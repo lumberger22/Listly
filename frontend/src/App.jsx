@@ -11,6 +11,9 @@ import Reports from "./pages/Reports";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminListings from "./pages/admin/AdminListings";
+import AdminRoute from "./components/AdminRoute";
 import "./App.css";
 
 function App() {
@@ -28,6 +31,8 @@ function App() {
             <Route path="/messages" element={<Messages />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+            <Route path="/admin/listings" element={<AdminRoute><AdminListings /></AdminRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
