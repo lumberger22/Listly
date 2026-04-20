@@ -7,22 +7,31 @@ A peer-to-peer marketplace where users can buy and sell items from one another. 
 ## Project Structure
 
 ```
-listly/
-├── backend/              # Node.js + Express API server
-│   ├── db.js             # MySQL connection
-│   ├── server.js         # Express app and routes
-│   ├── seed.js           # Script to populate the DB with fake data
-│   ├── .env              # Your local environment variables (never commit this)
-│   ├── .env.example      # Template for environment variables
+Listly/
+├── README.md
+├── docs/                     # Diagrams, screenshots, and reference materials
+├── db/                       # Database schema and seed script
+│   ├── listly_schema.sql     # Full MySQL schema
+│   └── seed.js               # Script to populate the DB with fake data
+├── backend/                  # Node.js + Express API server
+│   ├── db.js                 # MySQL connection
+│   ├── server.js             # Express app and routes
+│   ├── middleware/           # Auth and admin middleware
+│   ├── routes/               # Route handlers
+│   ├── .env                  # Your local environment variables (never commit this)
+│   ├── .env.example          # Template for environment variables
 │   └── package.json
-├── frontend/             # React app (Vite)
+├── frontend/                 # React app (Vite)
 │   ├── src/
-│   │   └── App.jsx
+│   │   ├── pages/            # All page components
+│   │   ├── components/       # Shared components (Navbar, modals, etc.)
+│   │   └── context/          # Auth context
 │   ├── index.html
 │   └── package.json
-├── database/
-│   └── listly_schema.sql # Full MySQL schema
-└── README.md
+├── reports/                  # Report writeups and documentation
+│   └── report_writeup.md
+└── roles/                    # Team member contributions
+    └── contributions.md
 ```
 
 ---
@@ -57,13 +66,13 @@ CREATE DATABASE listly;
 Then run the schema file to create all tables. In Workbench:
 
 - Select the `listly` database in the left panel (click it so it goes bold)
-- Go to **File → Open SQL Script** → open `database/listly_schema.sql`
+- Go to **File → Open SQL Script** → open `db/listly_schema.sql`
 - Hit the ⚡ Execute button
 
 Or via command line:
 
 ```bash
-mysql -u root -p listly < database/listly_schema.sql
+mysql -u root -p listly < db/listly_schema.sql
 ```
 
 ### 3. Set up the backend
@@ -81,6 +90,7 @@ DB_HOST=localhost
 DB_USER=root
 DB_PASS=your_mysql_password
 DB_NAME=listly
+JWT_SECRET=your_secret_here
 ```
 
 Start the backend:
@@ -104,11 +114,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser. You should see:
-
-```
-Listly — Database: Connected to Listly DB
-```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
@@ -116,18 +122,18 @@ Listly — Database: Connected to Listly DB
 
 The repo includes a seed script that populates the database with realistic fake data so you can explore the app without manually creating accounts and listings.
 
-**Run from the `backend` directory (make sure the backend `.env` is configured first):**
+**Run from the project root (make sure the backend `.env` is configured first):**
 
 ```bash
-cd backend
-node seed.js
+node db/seed.js
 ```
 
 The script will clear all existing data and insert fresh seed data each time it runs.
 
 ### What it creates
 
-- **5 user accounts** — each account has both buyer and seller access
+- **1 admin account** — full access to User Management and Listing Management pages
+- **5 regular user accounts** — each account has both buyer and seller access
 - **15 listings** — spread across Electronics, Furniture, Clothing, Books, Sports, Home & Garden, Musical Instruments, Tools, and Collectibles
 - **4 offers** — with statuses: pending, accepted, and countered
 - **2 completed transactions** — one shipped by mail, one in-person pickup
@@ -138,13 +144,14 @@ The script will clear all existing data and insert fresh seed data each time it 
 
 All accounts use the password `password123`.
 
-| Username | Email |
-| --- | --- |
-| `alex_sells` | alex@example.com |
-| `brianna_b` | brianna@example.com |
-| `carlos_c` | carlos@example.com |
-| `diana_d` | diana@example.com |
-| `evan_e` | evan@example.com |
+| Username | Email | Role |
+| --- | --- | --- |
+| `admin` | admin@listly.com | Admin |
+| `alex_sells` | alex@example.com | User |
+| `brianna_b` | brianna@example.com | User |
+| `carlos_c` | carlos@example.com | User |
+| `diana_d` | diana@example.com | User |
+| `evan_e` | evan@example.com | User |
 
 ---
 
@@ -183,7 +190,7 @@ npm run dev
 
 The schema includes the following tables:
 
-- **User** — base account info
+- **User** — base account info (includes `is_admin` flag)
 - **Buyer** — buyer-specific data (linked to User)
 - **Seller** — seller-specific data (linked to User)
 - **Item_Listing** — listings posted by sellers
@@ -201,5 +208,5 @@ The schema includes the following tables:
 
 - Never commit your `.env` file — it contains your database password
 - Each team member runs their own local MySQL database
-- When the schema changes, re-run `listly_schema.sql` in Workbench to update your local tables
+- When the schema changes, re-run `db/listly_schema.sql` in Workbench to update your local tables
 - The `.env.example` file shows which environment variables are needed without exposing any credentials
