@@ -60,4 +60,4 @@ The SQL query uses a LEFT JOIN between Item_Listing and Offer so that categories
 
 ### Screenshot
 
-*[Insert screenshot of Category Market Overview table here]*
+![Category market overview](./images/cat_market_overview.png)
