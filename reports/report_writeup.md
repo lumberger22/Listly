@@ -31,7 +31,7 @@ The SQL query uses four LEFT JOINs to connect the seller to their listings, tran
 
 ### Screenshot
 
-*[Insert screenshot of Seller Performance Summary table here]*
+<img src="./images/seller-perf-report.png" alt="Seller Performance Summary Report" width="600" />
 
 ---
 
@@ -60,4 +60,5 @@ The SQL query uses a LEFT JOIN between Item_Listing and Offer so that categories
 
 ### Screenshot
 
-![Category market overview](./images/cat_market_overview.png)
+<img src="./images/cat-market-overview.png" alt="Category Market Overview" width="600" />
+

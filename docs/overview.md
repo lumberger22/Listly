@@ -52,51 +52,81 @@ The reports page displays two aggregated reports fetched from the backend:
 
 These are implemented in `backend/routes/reports.js` and rendered in `frontend/src/pages/Reports.jsx`.
 
-## Screenshot Checklist
+## UI Screenshots
 
-Add screenshots for the core flows you want to present in the project submission.
+These screenshots show off the core components and flow of Listly's UI
 
 ### Main Pages
 
 #### Home Page
-![Home page screenshot](./images/home-page.png)
+Users have the ability to browse item listings and search by name and/or filter by category
+
+<img src="./images/home-page.png" alt="Home page" width="600" />
 
 #### Listing Detail Page
-![Listing detail screenshot](./images/listing-detail.png)
+Users can view the details of an item listing by selecting it from the Home/Browse page
 
-#### Create Listing Page
-![Create listing screenshot](./images/create-listing.png)
+<img src="./images/listing-detail.png" alt="Listing Detail Page" width="600" />
 
 #### Messages Page
-![Messages page screenshot](./images/messages-page.png)
+Users can initiate a conversation through an item listing by messsaging the seller, then continue from the Messages tab
+
+<img src="./images/messages.png" alt="Messages Page" width="600" />
+
+#### My Listings Page
+Users can view their posted listings from this page. From here they can edit, delete, and view the status or offers for this listing
+
+<img src="./images/my-listings.png" alt="My Listings Page" width="600" />
+
+#### Post Listing Page
+Users can create and post a new listing by clicking '+ New Listing' on the My Listings page
+
+<img src="./images/post-listing.png" alt="Post a Listing Page" width="600" />
 
 #### Profile Page
-![Profile page screenshot](./images/profile-page.png)
+Users can view their listings, transaction history, and any reviews they have recieved here. They also have the ability to delete their account
+
+<img src="./images/profile.png" alt="Profile Page" width="600" />
 
 ### Reports
 
-#### Reports Page
-![Reports page screenshot](./images/reports-page.png)
+#### Reports Page and Seller Performance Summary
+Users can view marketplace reports on this page. The Seller Performance Summary ranks sellers by total revenue and other statistics to show the most active users on the site
 
-#### Seller Performance Summary
-![Seller performance summary screenshot](./images/seller-performance-summary.png)
+Further details are available in report_writeup.md
+
+<img src="./images/reports.png" alt="Reports Page" width="600" />
+
+<!-- #### Seller Performance Summary
+<img src="./images/seller-perf-report.png" alt="Seller Performance Summary Report" width="600" /> -->
 
 #### Category Market Overview
-![Category market overview screenshot](./images/category-market-overview.png)
+Breaks down the market by category, allowing users to get a view of price ranges and competition levels amoung categories
+
+Further details are available in report_writeup.md
+
+<img src="./images/cat-market-overview.png" alt="Category Market Overview Report" width="600" />
 
 ### Admin Views
 
-#### Admin Users Page
-![Admin users screenshot](./images/admin-users.png)
+#### Admin Users Management Page
+Admins can view and manage all users on Listly. Admins can create, delete, or promote users to admin from here.
 
-#### Admin Listings Page
-![Admin listings screenshot](./images/admin-listings.png)
+<img src="./images/admin-user.png" alt="Admin User Page" width="600" />
+
+#### Admin Listing Management Page
+Admins can view an overview of all listings on Listly, active, sold, or removed, their details, and remove them if necessary
+
+<img src="./images/admin-listings.png" alt="Admin Listings Page" width="600" />
 
 ## Diagrams
 
 ### ER Diagram
-![ER diagram](./images/er-diagram.png)
+
+<img src="./images/er-diagram.png" alt="ER Diagram" width="600" />
+
+https://lucid.app/lucidchart/d16b1005-cb55-46f0-8bde-e43ccc261b51/edit?invitationId=inv_fa78264d-5175-4036-87f6-3f69b478b0c2&page=0_0#
 
 ### System Architecture Diagram
-![System architecture diagram](./images/system-architecture.png)
 
+<img src="./images/sys-arch-diagram.png" alt="System Architecture Diagram" width="600" />
