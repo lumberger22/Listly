@@ -129,4 +129,6 @@ https://lucid.app/lucidchart/d16b1005-cb55-46f0-8bde-e43ccc261b51/edit?invitatio
 
 ### System Architecture Diagram
 
+The Listly system architecture consists of four main components: the user-facing React frontend, the Express backend API, JWT-based authentication, and the MySQL database. Users interact with the application through the frontend, which sends HTTP/JSON requests to the backend for features such as authentication, listings, offers, messaging, reviews, transactions, reports, and admin tools. The backend processes requests, applies authentication and admin middleware where needed, and executes SQL queries against the MySQL database to store and retrieve marketplace data. JWT tokens are used to secure protected routes and maintain authenticated user sessions.
+
 <img src="./images/sys-arch-diagram.png" alt="System Architecture Diagram" width="600" />
