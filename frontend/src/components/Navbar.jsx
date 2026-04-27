@@ -12,6 +12,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [theme, setTheme] = useState(getInitialTheme);
+  const [adminOpen, setAdminOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -43,12 +44,14 @@ export default function Navbar() {
         {user && <Link to="/messages">Messages</Link>}
         {user && <Link to="/profile">Profile</Link>}
         {user?.is_admin && (
-          <div className="admin-dropdown">
-            <span className="admin-dropdown-trigger">Admin ▾</span>
-            <div className="admin-dropdown-menu">
-              <Link to="/admin/users">User Management</Link>
-              <Link to="/admin/listings">Listing Management</Link>
-            </div>
+          <div className="admin-dropdown" onMouseLeave={() => setAdminOpen(false)}>
+            <span className="admin-dropdown-trigger" onClick={() => setAdminOpen((o) => !o)}>Admin ▾</span>
+            {adminOpen && (
+              <div className="admin-dropdown-menu">
+                <Link to="/admin/users" onClick={() => setAdminOpen(false)}>User Management</Link>
+                <Link to="/admin/listings" onClick={() => setAdminOpen(false)}>Listing Management</Link>
+              </div>
+            )}
           </div>
         )}
         {user ? (

@@ -994,7 +994,7 @@ label:first-child {
   z-index: 150;
   overflow: hidden;
 }
-.admin-dropdown:hover .admin-dropdown-menu { display: flex; flex-direction: column; }
+.admin-dropdown-menu { display: flex; flex-direction: column; }
 
 .admin-dropdown-menu a {
   padding: 0.65rem 1rem;
