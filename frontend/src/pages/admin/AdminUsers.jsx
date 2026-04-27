@@ -20,7 +20,7 @@ export default function AdminUsers() {
 
   async function fetchUsers() {
     try {
-      const res = await axios.get("http://localhost:3001/admin/users", { headers });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, { headers });
       setUsers(res.data);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to load users");
@@ -32,7 +32,7 @@ export default function AdminUsers() {
   async function handleDelete(uid, username) {
     if (!confirm(`Permanently delete account "${username}"? This cannot be undone.`)) return;
     try {
-      await axios.delete(`http://localhost:3001/admin/users/${uid}`, { headers });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/users/${uid}`, { headers });
       setUsers((prev) => prev.filter((u) => u.UID !== uid));
     } catch (err) {
       setError(err.response?.data?.error || "Delete failed");
@@ -44,7 +44,7 @@ export default function AdminUsers() {
     const action = currentlyAdmin ? "remove admin from" : "make admin";
     if (!confirm(`Are you sure you want to ${action} this user?`)) return;
     try {
-      await axios.put(`http://localhost:3001/admin/users/${uid}/toggle-admin`, {}, { headers });
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/users/${uid}/toggle-admin`, {}, { headers });
       setUsers((prev) =>
         prev.map((u) => u.UID === uid ? { ...u, is_admin: u.is_admin ? 0 : 1 } : u)
       );
@@ -68,9 +68,9 @@ export default function AdminUsers() {
     setFormError("");
     setCreating(true);
     try {
-      const res = await axios.post("http://localhost:3001/admin/users", form, { headers });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/admin/users`, form, { headers });
       // Refresh the full list to get listing/transaction counts populated correctly
-      const listRes = await axios.get("http://localhost:3001/admin/users", { headers });
+      const listRes = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, { headers });
       setUsers(listRes.data);
       closeModal();
     } catch (err) {

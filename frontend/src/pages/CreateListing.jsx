@@ -26,7 +26,7 @@ export default function CreateListing() {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post("http://localhost:3001/listings", form, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/listings`, form, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       navigate(`/listing/${res.data.lid}`);

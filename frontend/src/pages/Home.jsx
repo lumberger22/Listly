@@ -21,7 +21,7 @@ export default function Home() {
       const params = {};
       if (search) params.search = search;
       if (category) params.category = category;
-      const res = await axios.get("http://localhost:3001/listings", { params });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/listings`, { params });
       setListings(res.data);
     } catch {
       setListings([]);

@@ -13,7 +13,9 @@ const reportRoutes = require("./routes/reports");
 const adminRoutes  = require("./routes/admin");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "*",
+}));
 app.use(express.json());
 
 app.get("/status", (req, res) => {
@@ -32,4 +34,5 @@ app.use("/transactions", transactionRoutes);
 app.use("/reports", reportRoutes);
 app.use("/admin", adminRoutes);
 
-app.listen(3001, () => console.log("Listly backend running on port 3001"));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Listly backend running on port ${PORT}`));

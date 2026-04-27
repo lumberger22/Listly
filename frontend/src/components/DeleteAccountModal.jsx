@@ -13,7 +13,7 @@ export default function DeleteAccountModal({ onClose }) {
     setError("");
     setLoading(true);
     try {
-      await axios.delete("http://localhost:3001/auth/account", {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/auth/account`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       logout();

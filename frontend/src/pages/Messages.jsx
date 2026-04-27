@@ -28,7 +28,7 @@ export default function Messages() {
 
   async function fetchConversations() {
     try {
-      const res = await axios.get(`http://localhost:3001/conversations/${user.uid}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/conversations/${user.uid}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setConversations(res.data);
@@ -40,7 +40,7 @@ export default function Messages() {
 
   async function fetchMessages(cid) {
     try {
-      const res = await axios.get(`http://localhost:3001/messages/${cid}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/messages/${cid}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setMessages(res.data);
@@ -67,7 +67,7 @@ export default function Messages() {
     if (!receiverUid) return;
     try {
       await axios.post(
-        "http://localhost:3001/messages",
+        `${import.meta.env.VITE_API_URL}/messages`,
         { cid: activeCid, uid_receiver: receiverUid, content: newMsg.trim() },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );

@@ -24,7 +24,7 @@ export default function MyOffers() {
 
   async function fetchOffers() {
     try {
-      const res = await axios.get("http://localhost:3001/offers/mine", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/offers/mine`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setOffers(res.data);
@@ -49,7 +49,7 @@ export default function MyOffers() {
   async function saveEdit(oid) {
     setActionError({});
     try {
-      await axios.patch(`http://localhost:3001/offers/${oid}`, { price: editPrice }, {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/offers/${oid}`, { price: editPrice }, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setEditingOid(null);
@@ -62,7 +62,7 @@ export default function MyOffers() {
   async function withdraw(oid) {
     setActionError({});
     try {
-      await axios.delete(`http://localhost:3001/offers/${oid}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/offers/${oid}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setOffers((prev) => prev.filter((o) => o.OID !== oid));

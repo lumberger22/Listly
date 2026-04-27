@@ -16,7 +16,7 @@ export default function AdminListings() {
 
   async function fetchListings() {
     try {
-      const res = await axios.get("http://localhost:3001/admin/listings", { headers });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/listings`, { headers });
       setListings(res.data);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to load listings");
@@ -28,7 +28,7 @@ export default function AdminListings() {
   async function handleRemove(lid, name) {
     if (!confirm(`Remove listing "${name}"?`)) return;
     try {
-      await axios.delete(`http://localhost:3001/admin/listings/${lid}`, { headers });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/listings/${lid}`, { headers });
       setListings((prev) =>
         prev.map((l) => l.LID === lid ? { ...l, Status: "removed" } : l)
       );

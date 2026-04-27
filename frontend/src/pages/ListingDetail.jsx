@@ -13,7 +13,7 @@ export default function ListingDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/listings/${id}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/listings/${id}`)
       .then((res) => setListing(res.data))
       .catch(() => setListing(null))
       .finally(() => setLoading(false));
@@ -24,7 +24,7 @@ export default function ListingDetail() {
     if (!user) return navigate("/login");
     try {
       await axios.post(
-        "http://localhost:3001/offers",
+        `${import.meta.env.VITE_API_URL}/offers`,
         { lid: listing.LID, price: offerPrice },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -39,7 +39,7 @@ export default function ListingDetail() {
     if (!user) return navigate("/login");
     try {
       const res = await axios.post(
-        "http://localhost:3001/conversations",
+        `${import.meta.env.VITE_API_URL}/conversations`,
         { uid2: listing.SellerUID },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );

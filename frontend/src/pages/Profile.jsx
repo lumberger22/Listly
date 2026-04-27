@@ -21,9 +21,9 @@ export default function Profile() {
     const headers = { Authorization: `Bearer ${user.token}` };
     try {
       const [listRes, txRes, revRes] = await Promise.all([
-        axios.get("http://localhost:3001/listings/mine", { headers }),
-        axios.get(`http://localhost:3001/transactions/${user.uid}`, { headers }),
-        axios.get(`http://localhost:3001/reviews/${user.sid}`),
+        axios.get(`${import.meta.env.VITE_API_URL}/listings/mine`, { headers }),
+        axios.get(`${import.meta.env.VITE_API_URL}/transactions/${user.uid}`, { headers }),
+        axios.get(`${import.meta.env.VITE_API_URL}/reviews/${user.sid}`),
       ]);
       setListings(listRes.data);
       setTransactions(txRes.data);

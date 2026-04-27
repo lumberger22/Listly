@@ -26,7 +26,7 @@ export default function MyListings() {
 
   async function fetchMyListings() {
     try {
-      const res = await axios.get("http://localhost:3001/listings/mine", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/listings/mine`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setListings(res.data);
@@ -37,7 +37,7 @@ export default function MyListings() {
 
   async function fetchOffers(lid) {
     try {
-      const res = await axios.get(`http://localhost:3001/offers/${lid}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/offers/${lid}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setOffers((prev) => ({ ...prev, [lid]: res.data }));
@@ -49,7 +49,7 @@ export default function MyListings() {
   async function handleDelete(lid) {
     if (!confirm("Remove this listing?")) return;
     try {
-      await axios.delete(`http://localhost:3001/listings/${lid}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/listings/${lid}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       fetchMyListings();
@@ -71,7 +71,7 @@ export default function MyListings() {
 
   async function saveEdit(lid) {
     try {
-      await axios.put(`http://localhost:3001/listings/${lid}`, editForm, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/listings/${lid}`, editForm, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setEditingId(null);
@@ -83,7 +83,7 @@ export default function MyListings() {
 
   async function respondToOffer(oid, status) {
     try {
-      await axios.put(`http://localhost:3001/offers/${oid}`, { status }, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/offers/${oid}`, { status }, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       // Refresh offers for all listings

@@ -8,8 +8,8 @@ export default function Reports() {
 
   useEffect(() => {
     Promise.all([
-      axios.get("http://localhost:3001/reports/sellers"),
-      axios.get("http://localhost:3001/reports/categories"),
+      axios.get(`${import.meta.env.VITE_API_URL}/reports/sellers`),
+      axios.get(`${import.meta.env.VITE_API_URL}/reports/categories`),
     ])
       .then(([sRes, cRes]) => {
         setSellers(sRes.data);
