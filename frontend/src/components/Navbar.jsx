@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -13,6 +13,17 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(getInitialTheme);
   const [adminOpen, setAdminOpen] = useState(false);
+  const adminRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (adminRef.current && !adminRef.current.contains(e.target)) {
+        setAdminOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -44,7 +55,7 @@ export default function Navbar() {
         {user && <Link to="/messages">Messages</Link>}
         {user && <Link to="/profile">Profile</Link>}
         {user?.is_admin && (
-          <div className="admin-dropdown" onMouseLeave={() => setAdminOpen(false)}>
+          <div className="admin-dropdown" ref={adminRef}>
             <span className="admin-dropdown-trigger" onClick={() => setAdminOpen((o) => !o)}>Admin ▾</span>
             {adminOpen && (
               <div className="admin-dropdown-menu">
