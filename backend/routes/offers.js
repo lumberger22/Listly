@@ -45,11 +45,15 @@ router.get("/mine", auth, (req, res) => {
     db.query(
       `SELECT o.*,
               l.Name AS ListingName, l.Images AS ListingImages, l.Price AS ListingPrice,
-              u.Username AS SellerName
+              u.Username AS SellerName,
+              t.TID,
+              CASE WHEN r.ReviewID IS NOT NULL THEN 1 ELSE 0 END AS has_review
        FROM Offer o
        JOIN Item_Listing l ON l.LID = o.LID
        JOIN Seller s ON s.SID = o.SID
        JOIN User u ON u.UID = s.UID
+       LEFT JOIN Transaction t ON t.BID = o.BID AND t.LID = o.LID
+       LEFT JOIN Review r ON r.TID = t.TID
        WHERE o.BID = ?
        ORDER BY o.OID DESC`,
       [bid],
@@ -146,7 +150,7 @@ router.put("/:oid", auth, (req, res) => {
 
   // Verify seller owns the listing this offer is on
   db.query(
-    `SELECT o.OID FROM Offer o
+    `SELECT o.OID, o.LID, o.BID, o.SID, o.Price FROM Offer o
      JOIN Item_Listing l ON l.LID = o.LID
      JOIN Seller s ON s.SID = l.SID
      WHERE o.OID = ? AND s.UID = ?`,
@@ -155,17 +159,32 @@ router.put("/:oid", auth, (req, res) => {
       if (err) return res.status(500).json({ error: err.message });
       if (!rows.length) return res.status(403).json({ error: "Not authorized" });
 
-      const updates = { Status: status };
-      if (status === "countered" && counter_price) {
-        updates.Price = counter_price;
-      }
+      const offer = rows[0];
 
       db.query(
         "UPDATE Offer SET Status = ?, Price = IF(? IS NOT NULL, ?, Price) WHERE OID = ?",
         [status, counter_price || null, counter_price || null, req.params.oid],
         (err2) => {
           if (err2) return res.status(500).json({ error: err2.message });
-          res.json({ success: true });
+
+          if (status !== "accepted") return res.json({ success: true });
+
+          // Create transaction and mark listing sold
+          db.query(
+            "INSERT INTO Transaction (LID, BID, SID, Price, Status) VALUES (?, ?, ?, ?, 'completed')",
+            [offer.LID, offer.BID, offer.SID, offer.Price],
+            (err3) => {
+              if (err3) return res.status(500).json({ error: err3.message });
+              db.query(
+                "UPDATE Item_Listing SET Status = 'sold' WHERE LID = ?",
+                [offer.LID],
+                (err4) => {
+                  if (err4) return res.status(500).json({ error: err4.message });
+                  res.json({ success: true });
+                }
+              );
+            }
+          );
         }
       );
     }

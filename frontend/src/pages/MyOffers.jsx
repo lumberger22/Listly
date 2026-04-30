@@ -16,6 +16,11 @@ export default function MyOffers() {
   const [editingOid, setEditingOid] = useState(null);
   const [editPrice, setEditPrice] = useState("");
   const [actionError, setActionError] = useState({});
+  const [reviewOffer, setReviewOffer] = useState(null);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewContent, setReviewContent] = useState("");
+  const [reviewError, setReviewError] = useState("");
+  const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
     if (!user) { navigate("/login"); return; }
@@ -68,6 +73,28 @@ export default function MyOffers() {
       setOffers((prev) => prev.filter((o) => o.OID !== oid));
     } catch (err) {
       setActionError({ [oid]: err.response?.data?.error || "Failed to withdraw offer" });
+    }
+  }
+
+  async function submitReview() {
+    setReviewError("");
+    setSubmittingReview(true);
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/reviews`, {
+        tid: reviewOffer.TID,
+        sid: reviewOffer.SID,
+        lid: reviewOffer.LID,
+        rating: reviewRating,
+        content: reviewContent,
+      }, { headers: { Authorization: `Bearer ${user.token}` } });
+      setOffers((prev) => prev.map((o) => o.OID === reviewOffer.OID ? { ...o, has_review: 1 } : o));
+      setReviewOffer(null);
+      setReviewContent("");
+      setReviewRating(5);
+    } catch (err) {
+      setReviewError(err.response?.data?.error || "Failed to submit review");
+    } finally {
+      setSubmittingReview(false);
     }
   }
 
@@ -173,11 +200,53 @@ export default function MyOffers() {
                     {WITHDRAWABLE.includes(offer.Status) && (
                       <button className="btn-danger" onClick={() => withdraw(offer.OID)}>Withdraw</button>
                     )}
+                    {offer.Status === "accepted" && offer.TID && (
+                      offer.has_review
+                        ? <span className="admin-muted" style={{ fontSize: "0.85rem" }}>Reviewed</span>
+                        : <button className="btn-ghost" onClick={() => { setReviewOffer(offer); setReviewRating(5); setReviewContent(""); setReviewError(""); }}>Leave Review</button>
+                    )}
                   </div>
                 )}
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {reviewOffer && (
+        <div className="modal-overlay" onClick={() => setReviewOffer(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h2 style={{ color: "var(--heading)" }}>Leave a Review</h2>
+            <p style={{ color: "var(--muted)", marginBottom: "1rem" }}>
+              Reviewing seller <strong>{reviewOffer.SellerName}</strong> for <strong>{reviewOffer.ListingName}</strong>
+            </p>
+            {reviewError && <p className="error">{reviewError}</p>}
+            <label>Rating</label>
+            <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  onClick={() => setReviewRating(star)}
+                  style={{ fontSize: "1.6rem", cursor: "pointer", color: star <= reviewRating ? "var(--star)" : "var(--border)" }}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <label>Comment (optional)</label>
+            <textarea
+              value={reviewContent}
+              onChange={(e) => setReviewContent(e.target.value)}
+              rows={3}
+              style={{ width: "100%", resize: "vertical" }}
+            />
+            <div className="modal-actions">
+              <button className="btn-secondary" onClick={() => setReviewOffer(null)} disabled={submittingReview}>Cancel</button>
+              <button className="btn-primary" onClick={submitReview} disabled={submittingReview}>
+                {submittingReview ? "Submitting..." : "Submit Review"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
